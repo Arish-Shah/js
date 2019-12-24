@@ -1,3 +1,13 @@
-let currentResult = 0;
-currentResult = (currentResult + 10) * 3 - 2;
-outputResult(currentResult, '');
+const defaultResult = 0;
+let currentResult = defaultResult;
+
+function add(a, b) {
+  return a + b;
+}
+
+const additionResult = add(1, 2);
+currentResult = additionResult;
+
+let calculationDescription = `(${defaultResult} + 10)`;
+
+outputResult(currentResult, calculationDescription);
