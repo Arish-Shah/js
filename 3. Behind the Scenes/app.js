@@ -20,7 +20,7 @@ class SnakeGame {
       { x: 150, y: 150 },
       { x: 140, y: 150 },
       { x: 130, y: 150 },
-      { x: 120, y: 150 },
+      { x: 120, y: 150 }
     ];
 
     setInterval(this.move, 1000 / 4);
@@ -54,29 +54,29 @@ class SnakeGame {
   }
 
   keyUpHandler(e) {
-    switch(e.keyCode) {
-      case 37: 
+    switch (e.keyCode) {
+      case 37:
         if (this.xv === 0) {
           this.xv = -this.tile;
           this.yv = 0;
         }
         break;
 
-      case 38: 
+      case 38:
         if (this.yv === 0) {
           this.yv = -this.tile;
           this.xv = 0;
         }
         break;
 
-      case 39: 
+      case 39:
         if (this.xv === 0) {
           this.xv = this.tile;
           this.yv = 0;
         }
         break;
 
-      case 40: 
+      case 40:
         if (this.yv === 0) {
           this.yv = this.tile;
           this.xv = 0;
@@ -90,7 +90,7 @@ class SnakeGame {
     const tempHeight = this.canvas.height / this.tile;
     let x = Math.floor(Math.random() * tempWidth) * this.tile;
     let y = Math.floor(Math.random() * tempHeight) * this.tile;
-    return { x, y }; 
+    return { x, y };
   }
 
   drawFood() {
