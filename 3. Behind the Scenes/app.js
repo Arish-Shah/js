@@ -15,6 +15,7 @@ class SnakeGame {
     this.tile = 10;
     this.xv = 10;
     this.yv = 0;
+    this.lost = 0;
     this.food = this.createFood();
     this.snake = [
       { x: 150, y: 150 },
@@ -23,7 +24,7 @@ class SnakeGame {
       { x: 120, y: 150 }
     ];
 
-    setInterval(this.move, 1000 / 4);
+    this.interval = setInterval(this.move, 1000 / 4);
     window.addEventListener('keyup', this.keyUpHandler);
   }
 
@@ -37,17 +38,36 @@ class SnakeGame {
       this.ctx.strokeRect(part.x, part.y, this.tile, this.tile);
     });
 
+    if (this.lost) {
+      this.ctx.fillStyle = 'black';
+      this.ctx.font = '30px Arial';
+      this.ctx.fillText('YOU LOSE!', 10, 50);
+      this.ctx.font = '10px Arial';
+      this.ctx.fillText('Press ENTER to restart.', 20, this.canvas.height - 20);
+    }
+
     this.drawFood();
   }
 
   move() {
     this.head = { x: this.snake[0].x + this.xv, y: this.snake[0].y + this.yv };
-    this.snake.unshift(this.head);
-    this.snake.pop();
 
     if (this.checkCollision(this.head, this.food)) {
       this.snake.unshift(this.food);
       this.food = this.createFood();
+    }
+
+    this.snake.unshift(this.head);
+    this.snake.pop();
+
+    if (
+      this.head.x >= this.canvas.width ||
+      this.head.x <= 0 ||
+      this.head.y >= this.canvas.height ||
+      this.head.y <= 0
+    ) {
+      clearInterval(this.interval);
+      this.lost = 1;
     }
 
     this.draw();
@@ -81,6 +101,11 @@ class SnakeGame {
           this.yv = this.tile;
           this.xv = 0;
         }
+        break;
+
+      case 13:
+        clearInterval(this.interval);
+        this.start();
         break;
     }
   }
