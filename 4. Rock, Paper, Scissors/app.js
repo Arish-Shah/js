@@ -96,10 +96,10 @@ const combine = (resultHandler, operation, ...numbers) => {
       sum -= validateNumber(num);
     }
   }
-  resultHandler(sum, "The result after adding all numbers is: ");
+  resultHandler(sum);
 };
 
-const showResult = (result, messageText) => {
+const showResult = (messageText, result) => {
   console.log(messageText + result);
 };
 
@@ -111,5 +111,19 @@ const showResult = (result, messageText) => {
 //   resultHandler(sum);
 // };
 
-combine(showResult, "ADD", 10, 5, "check", 3, 34);
-combine(showResult, "SUBTRACT", 1, 2, 3);
+combine(
+  showResult.bind(this, "The result after adding all numbers is: "),
+  "ADD",
+  10,
+  5,
+  "check",
+  3,
+  34
+);
+combine(
+  showResult.bind(this, "The result after subtracting all numbers is: "),
+  "SUBTRACT",
+  1,
+  2,
+  3
+);

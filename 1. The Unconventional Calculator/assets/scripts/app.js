@@ -26,10 +26,10 @@ function writeToLog(operation, prevResult, number, result) {
 
 function calculateResult(calculationType) {
   if (
-    calculationType !== 'ADD' &&
-    calculationType === 'SUBTRACT' &&
-    calculationType === 'MULTIPLY' &&
-    calculationType === 'DIVIDE' &&
+    calculationType !== "ADD" &&
+    calculationType === "SUBTRACT" &&
+    calculationType === "MULTIPLY" &&
+    calculationType === "DIVIDE" &&
     !enteredNumber
   ) {
     return;
@@ -39,18 +39,18 @@ function calculateResult(calculationType) {
   const initialResult = currentResult;
   let mathOperator;
 
-  if (calculationType === 'ADD') {
+  if (calculationType === "ADD") {
     currentResult += enteredNumber;
-    mathOperator = '+';
-  } else if (calculationType === 'SUBTRACT') {
+    mathOperator = "+";
+  } else if (calculationType === "SUBTRACT") {
     currentResult -= enteredNumber;
-    mathOperator = '-';
-  } else if (calculationType === 'MULTIPLY') {
+    mathOperator = "-";
+  } else if (calculationType === "MULTIPLY") {
     currentResult *= enteredNumber;
-    mathOperator = '*';
-  } else if (calculationType === 'DIVIDE') {
+    mathOperator = "*";
+  } else if (calculationType === "DIVIDE") {
     currentResult /= enteredNumber;
-    mathOperator = '/';
+    mathOperator = "/";
   }
 
   createAndWriteLog(mathOperator, initialResult, enteredNumber);
@@ -58,22 +58,39 @@ function calculateResult(calculationType) {
 }
 
 function add() {
-  calculateResult('ADD');
+  calculateResult("ADD");
 }
 
 function subtract() {
-  calculateResult('SUBTRACT');
+  calculateResult("SUBTRACT");
 }
 
 function multiply() {
-  calculateResult('MULTIPLY');
+  calculateResult("MULTIPLY");
 }
 
 function divide() {
-  calculateResult('DIVIDE');
+  calculateResult("DIVIDE");
 }
 
-addBtn.addEventListener('click', add);
-subtractBtn.addEventListener('click', subtract);
-multiplyBtn.addEventListener('click', multiply);
-divideBtn.addEventListener('click', divide);
+function calculate(operation) {
+  switch (operation) {
+    case "ADD":
+      calculateResult("ADD");
+      break;
+    case "SUBTRACT":
+      calculateResult("SUBTRACT");
+      break;
+    case "MULTIPLY":
+      calculateResult("MULTIPLY");
+      break;
+    case "DIVIDE":
+      calculateResult("DIVIDE");
+      break;
+  }
+}
+
+addBtn.addEventListener("click", add);
+subtractBtn.addEventListener("click", subtract);
+multiplyBtn.addEventListener("click", multiply);
+divideBtn.addEventListener("click", divide);
