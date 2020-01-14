@@ -1,1 +1,2 @@
-console.log(document.querySelector('ul li:first-of-type'));
+const li = document.querySelectorAll('li');
+console.log(li);
