@@ -1,16 +1,53 @@
-function h(type, attributes, ...children) {
-  return {
-    type,
-    attributes,
-    children
-  };
+function h(type, props, ...children) {
+  props = props || {};
+  return { type, props, children };
 }
 
-const App = h(
-  'ul',
-  { class: 'list' },
-  h('li', {}, 'Item 1'),
-  h('li', {}, 'Item 2')
-);
+function render(vNode, $parent) {
+  $parent.appendChild(createElement(vNode()));
+}
 
-console.log(App);
+function createElement(vNode) {
+  const $element = document.createElement(vNode.type);
+
+  setProps($element, vNode.props);
+
+  if (
+    (vNode.children.length === 1 && typeof vNode.children[0] === 'string') ||
+    typeof vNode.children[0] === 'number'
+  ) {
+    $element.appendChild(document.createTextNode(vNode.children[0]));
+  } else {
+    vNode.children.forEach(child => {
+      $element.appendChild(createElement(child));
+    });
+  }
+
+  return $element;
+}
+
+function setProps($element, props) {
+  for (const [name, value] of Object.entries(props)) {
+    switch (name.toString()) {
+      case 'style':
+        setStyle($element, value);
+        break;
+      default:
+        setProp($element, name, value);
+    }
+  }
+}
+
+function setStyle($element, style) {
+  for (const [property, value] of Object.entries(style)) {
+    $element.style[property] = value;
+  }
+}
+
+function setProp($element, name, value) {
+  if (typeof value === 'string') {
+    $element.setAttribute(name, value);
+  } else {
+    $element[name] = value;
+  }
+}
