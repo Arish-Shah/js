@@ -51,3 +51,35 @@ function setProp($element, name, value) {
     $element[name] = value;
   }
 }
+
+// Component Creation
+
+let counter = 0;
+
+function handleDecrement() {
+  counter--;
+  console.log('DECREMENTED');
+}
+
+function handleIncrement() {
+  counter++;
+  console.log('INCREMENTED');
+}
+
+const App = () => {
+  const style = {
+    width: '100px',
+    textAlign: 'center',
+    display: 'inline-block'
+  };
+
+  return h(
+    'div',
+    null,
+    h('button', { onclick: handleDecrement }, '-'),
+    h('p', { style }, 0),
+    h('button', { onclick: handleIncrement }, '+')
+  );
+};
+
+render(App, document.getElementById('app'));
