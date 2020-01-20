@@ -3,29 +3,6 @@ function h(type, props, ...children) {
   return { type, props, children };
 }
 
-function render(vNode, $parent) {
-  $parent.appendChild(createElement(vNode()));
-}
-
-function createElement(vNode) {
-  const $element = document.createElement(vNode.type);
-
-  setProps($element, vNode.props);
-
-  if (
-    (vNode.children.length === 1 && typeof vNode.children[0] === 'string') ||
-    typeof vNode.children[0] === 'number'
-  ) {
-    $element.appendChild(document.createTextNode(vNode.children[0]));
-  } else {
-    vNode.children.forEach(child => {
-      $element.appendChild(createElement(child));
-    });
-  }
-
-  return $element;
-}
-
 function setProps($element, props) {
   for (const [name, value] of Object.entries(props)) {
     switch (name.toString()) {
@@ -52,18 +29,43 @@ function setProp($element, name, value) {
   }
 }
 
+function render(vNode, $parent) {
+  $parent.appendChild(createElement(vNode()));
+}
+
+function mount(vNode, $parent, index = 0) {
+  console.log(`mounting`);
+}
+
+function createElement(vNode) {
+  const $element = document.createElement(vNode.type);
+
+  setProps($element, vNode.props);
+
+  if (
+    (vNode.children.length === 1 && typeof vNode.children[0] === 'string') ||
+    typeof vNode.children[0] === 'number'
+  ) {
+    $element.appendChild(document.createTextNode(vNode.children[0]));
+  } else {
+    vNode.children.forEach(child => {
+      $element.appendChild(createElement(child));
+    });
+  }
+
+  return $element;
+}
+
 // Component Creation
 
 let counter = 0;
 
 function handleDecrement() {
   counter--;
-  console.log('DECREMENTED');
 }
 
 function handleIncrement() {
   counter++;
-  console.log('INCREMENTED');
 }
 
 const App = () => {
