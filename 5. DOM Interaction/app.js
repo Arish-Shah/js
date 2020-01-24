@@ -1,3 +1,2 @@
-function p(fn, param) {
-  console.log(fn, param);
-}
+const node = document.querySelector('ul');
+console.log(node);
