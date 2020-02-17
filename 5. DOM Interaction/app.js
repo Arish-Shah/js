@@ -1,2 +1,2 @@
-const node = document.querySelector('ul');
-console.log(node);
+const ul = document.body.firstElementChild.nextElementSibling;
+console.log(ul);
