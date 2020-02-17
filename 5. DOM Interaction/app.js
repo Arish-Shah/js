@@ -1,2 +1,1 @@
-const ul = document.body.firstElementChild.nextElementSibling;
-console.log(ul);
+const list = document.querySelector('ul');
