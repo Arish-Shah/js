@@ -9,12 +9,40 @@ const newHobbies = hobbies.slice();
 
 console.log(newHobbies);
 
-function h(type, props, ...children) {
-  return {
-    type,
-    props,
-    children
-  };
+class XComponent extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <input type="text" />
+      <h1></h1>
+    `;
+    this.input = this.shadowRoot.querySelector('input');
+    this.h1 = this.shadowRoot.querySelector('h1');
+
+    this.input.addEventListener('input', e => {
+      this.message = e.target.value;
+    });
+  }
+
+  static get observedAttributes() {
+    return ['message'];
+  }
+
+  attributeChangedCallback() {
+    this.update();
+  }
+
+  get message() {
+    return this.getAttribute('message');
+  }
+
+  set message(val) {
+    this.setAttribute('message', val);
+  }
+
+  update() {
+    this.h1.textContent = this.message;
+  }
 }
 
-console.log(h('h1', { id: 'title' }, 'Heading 1'));
+customElements.define('x-component', XComponent);
