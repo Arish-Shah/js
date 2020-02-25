@@ -5,3 +5,6 @@ const sum = numbers.reduce((prevValue, currentValue) => {
 }, 0);
 
 console.log(sum);
+
+const str = 'New York;1000;20.4';
+console.log(str.split(';'));
