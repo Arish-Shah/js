@@ -20,8 +20,11 @@ const renderMovies = (filter = '') => {
 
   filteredMovies.forEach(movie => {
     const movieEl = document.createElement('li');
-    let text = movie.info.title + ' - ';
-    for (const key in movie.info) {
+    const { info } = movie;
+    let { getFormattedTitle } = movie;
+    getFormattedTitle = getFormattedTitle.bind(movie);
+    let text = getFormattedTitle() + ' - ';
+    for (const key in info) {
       if (key !== 'title') {
         text = text + `${key}: ${movie.info[key]}`;
       }
@@ -46,10 +49,23 @@ const addMovieHandler = () => {
 
   const newMovie = {
     info: {
-      title,
+      get title() {
+        return this._title;
+      },
+      set title(val) {
+        if (val.trim()) {
+          this._title = 'DEFAULT';
+          return;
+        }
+        this._title = val;
+      },
       [extraName]: extraValue
     },
-    id: Math.random()
+    id: Math.random(),
+    getFormattedTitle: () => {
+      console.log(this);
+      return this.info.title.toUpperCase();
+    }
   };
 
   movies.push(newMovie);
@@ -57,6 +73,7 @@ const addMovieHandler = () => {
 };
 
 const searchMovieHandler = () => {
+  console.log(this);
   const filterTerm = document.getElementById('filter-title').value;
   renderMovies(filterTerm);
 };
