@@ -55,3 +55,9 @@ const productList = {
 };
 
 productList.render();
+
+function Scope() {
+  this.name = 'hello';
+}
+
+Scope.prototype.sayHello = function() {};
