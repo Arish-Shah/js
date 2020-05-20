@@ -1,9 +1,23 @@
 class Product {
   constructor(title, image, desc, price) {
-    this.title = title || "Default";
+    this.title = title || 'Default';
     this.imageUrl = image;
     this.description = desc;
     this.price = price;
+  }
+}
+
+class ShoppingCart {
+  items = [];
+
+  render() {
+    const cartEl = document.createElement('section');
+    cartEl.innerHTML = `
+			<h2>Total: \$${0}</h2>
+			<button>Order Now</button>
+		`;
+    cartEl.className = 'cart';
+    return cartEl;
   }
 }
 
@@ -12,9 +26,14 @@ class ProductItem {
     this.product = product;
   }
 
+  addToCart() {
+    console.log('Adding Product to cart...');
+    console.log(this.product);
+  }
+
   render() {
-    const prodEl = document.createElement("li");
-    prodEl.className = "product-item";
+    const prodEl = document.createElement('li');
+    prodEl.className = 'product-item';
     prodEl.innerHTML = `
         <div>
           <img src="${this.product.imageUrl}" alt="${this.product.title}" />
@@ -25,7 +44,9 @@ class ProductItem {
             <button>Add to Cart</button>
           </div>
         </div>
-      `;
+			`;
+    const addCartButton = prodEl.querySelector('button');
+    addCartButton.addEventListener('click', this.addToCart.bind(this));
     return prodEl;
   }
 }
@@ -33,25 +54,24 @@ class ProductItem {
 class ProductList {
   products = [
     new Product(
-      "A Pillow",
-      "https://cdn.pixabay.com/photo/2016/03/07/10/31/pillow-1241878_960_720.jpg",
-      "A soft pillow!",
+      'A Pillow',
+      'https://cdn.pixabay.com/photo/2016/03/07/10/31/pillow-1241878_960_720.jpg',
+      'A soft pillow!',
       19.99
     ),
     new Product(
-      "A Carpet",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ardabil_Carpet.jpg/800px-Ardabil_Carpet.jpg",
-      "A carpet which you might like - or not.",
+      'A Carpet',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ardabil_Carpet.jpg/800px-Ardabil_Carpet.jpg',
+      'A carpet which you might like - or not.',
       89.99
-    ),
+    )
   ];
 
   constructor() {}
 
   render() {
-    const renderHook = document.getElementById("app");
-    const prodList = document.createElement("ul");
-    prodList.className = "product-list";
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list';
 
     for (const prod of this.products) {
       const productItem = new ProductItem(prod);
@@ -59,8 +79,29 @@ class ProductList {
       prodList.appendChild(productEl);
     }
 
-    renderHook.appendChild(prodList);
+    return prodList;
   }
 }
 
-new ProductList().render();
+class Shop {
+  render() {
+    const renderHook = document.getElementById('app');
+
+    this.cart = new ShoppingCart();
+    const cartEl = this.cart.render();
+    const productList = new ProductList();
+    const prodListEl = productList.render();
+
+    renderHook.append(cartEl);
+    renderHook.append(prodListEl);
+  }
+}
+
+class App {
+  static init() {
+    const shop = new Shop();
+    shop.render();
+  }
+}
+
+App.init();
