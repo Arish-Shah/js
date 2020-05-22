@@ -2,7 +2,7 @@ class Course {
   constructor(title, length, price) {
     this.title = title;
     this.length = length;
-    this._price = price;
+    this.#price = price;
   }
 
   calculate() {
@@ -16,12 +16,12 @@ class Course {
   }
 
   get price() {
-    return `\$${this._price}`;
+    return `\$${this.#price}`;
   }
 
   set price(value) {
     if (value >= 0) {
-      this._price = value;
+      this.#price = value;
     } else {
       throw new Error('Invalid Amount');
     }
