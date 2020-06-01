@@ -1,24 +1,37 @@
-let buttons = document.querySelectorAll('button');
+let button = document.querySelector('button');
 
-const buttonClickHandler = event => {
-  console.log(event);
-  event.target.disabled = true;
-};
+// const buttonClickHandler = event => {
+//   console.log(event);
+//   event.target.disabled = true;
+// };
 
-const anotherButtonClickHandler = () => {
-  console.log('This was clicked');
-};
+// const anotherButtonClickHandler = () => {
+//   console.log('This was clicked');
+// };
 
-const boundFn = buttonClickHandler.bind(this);
+// const boundFn = buttonClickHandler.bind(this);
 
-buttons.forEach(button => {
-  button.addEventListener('click', buttonClickHandler);
-});
+// buttons.forEach(button => {
+//   button.addEventListener('click', buttonClickHandler);
+// });
 
 // setTimeout(() => {
 //   button.removeEventListener('click', buttonClickHandler);
 // }, 2000);
 
-window.addEventListener('scroll', event => {
+const form = document.querySelector('form');
+form.addEventListener('submit', event => {
+  event.preventDefault();
+});
+
+const div = document.querySelector('div');
+div.addEventListener('click', event => {
+  console.log('CLICKED DIV');
+  console.log(event);
+});
+
+button.addEventListener('click', event => {
+  event.stopPropagation();
+  console.log('CLICKED BUTTON');
   console.log(event);
 });
