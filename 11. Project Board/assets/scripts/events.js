@@ -35,3 +35,8 @@ button.addEventListener('click', event => {
   console.log('CLICKED BUTTON');
   console.log(event);
 });
+
+const list = document.querySelector('ul');
+list.addEventListener('click', event => {
+  event.target.classList.toggle('highlight');
+});
