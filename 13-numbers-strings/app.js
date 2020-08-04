@@ -15,5 +15,22 @@ function random(max, min) {
 console.log(random(10, 20));
 
 function productDescription(strings, productName, productPrice) {
-  return 'This is a product';
+  console.log(strings);
+  console.log(productName);
+  console.log(productPrice);
+  let priceCategory = 'pretty cheap regarding its price';
+  if (productPrice > 20) {
+    priceCategory = 'fairly priced';
+  }
+  // return `${strings[0]}${productName}${strings[1]}${priceCategory}${strings[2]}`;
+  return {
+    name: productName,
+    price: productPrice
+  };
 }
+
+const prodName = 'Sneakers';
+const prodPrice = 19.99;
+const prodOutput = productDescription`The product (${prodName}) is ${prodPrice}.`;
+
+console.log(prodOutput);
