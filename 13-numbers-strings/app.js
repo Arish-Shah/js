@@ -15,10 +15,5 @@ function random(max, min) {
 console.log(random(10, 20));
 
 function productDescription(strings, productName, productPrice) {
-  return 'foo';
+  return 'This is a product';
 }
-
-const prodName = 'Sneakers';
-const prodPrice = 19.99;
-const productOutput = productDescription`The product (${prodName}) is ${prodPrice}`;
-console.log(productOutput);
