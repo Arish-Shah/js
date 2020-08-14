@@ -7,10 +7,7 @@ const postList = document.querySelector('ul');
 function sendHttpRequest(method, url, data) {
   return fetch(url, {
     method: method,
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    body: data
   })
     .then(response => {
       if (response.status >= 200 && response.status < 300) {
@@ -30,11 +27,10 @@ function sendHttpRequest(method, url, data) {
 
 async function fetchPosts() {
   try {
-    const responseData = await sendHttpRequest(
-      'GET',
+    const response = await axios.get(
       'https://jsonplaceholder.typicode.com/posts'
     );
-    const posts = responseData;
+    const posts = response.data;
     for (const post of posts) {
       const postEl = document.importNode(postTemplate.content, true);
       postEl.querySelector('h2').textContent = post.title;
@@ -43,7 +39,7 @@ async function fetchPosts() {
       listElement.append(postEl);
     }
   } catch (err) {
-    alert(err.message);
+    console.log(err.response);
   }
 }
 
@@ -55,7 +51,13 @@ async function createPost(title, content) {
     content
   };
 
-  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+  const fd = new FormData(form);
+  fd.append('userId', userId);
+  const response = await axios.post(
+    'https://jsonplaceholder.typicode.com/posts',
+    fd
+  );
+  console.log(response);
 }
 
 fetchButton.addEventListener('click', fetchPosts);
