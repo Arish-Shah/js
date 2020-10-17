@@ -3,12 +3,12 @@ const CleanPlugin = require('clean-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/app.js',
   output: {
-    filename: 'app.js',
+    filename: '[contenthash].js',
     path: path.resolve(__dirname, 'assets', 'scripts')
   },
-  devtool: 'eval-cheap-module-source-map',
+  devtool: 'cheap-source-map',
   plugins: [new CleanPlugin.CleanWebpackPlugin()]
 };
