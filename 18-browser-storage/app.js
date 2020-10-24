@@ -1,15 +1,30 @@
 const storeButton = document.getElementById('store-btn');
 const retrButton = document.getElementById('retrieve-btn');
 
-storeButton.addEventListener('click', () => {
-  const userId = 'u123';
-  const user = { name: 'arish', age: 22 };
-  document.cookie = `uid=${userId}; max-age=2`;
-  document.cookie = `user=${JSON.stringify(user)}`;
-});
+const dbRequest = indexedDB.open('StorageDummy', 1);
 
-retrButton.addEventListener('click', () => {
-  const cookieData = document.cookie.split(';');
-  const data = cookieData.map((i) => i.trim());
-  console.log(data[1].split('=')[1]);
-});
+dbRequest.onupgradeneeded = function (event) {
+  const db = event.target.result;
+
+  const objStore = db.createObjectStore('products', { keyPath: 'id' });
+
+  objStore.transaction.oncomplete = function () {
+    const productsStore = db
+      .transaction('products', 'readwrite')
+      .objectStore('products');
+    productsStore.add({
+      id: 'p1',
+      title: 'A first product',
+      price: 19.99,
+      tags: ['Expensive', 'Luxury']
+    });
+  };
+};
+
+dbRequest.onerror = function (event) {
+  console.log('Error!');
+};
+
+storeButton.addEventListener('click', () => {});
+
+retrButton.addEventListener('click', () => {});
