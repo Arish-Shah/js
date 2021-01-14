@@ -27,7 +27,7 @@ module.exports = class Product {
     });
   }
 
-  static fetchAll(callback) {
+  static findAll(callback) {
     getProductsFromFile(callback);
   }
 };
