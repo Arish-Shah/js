@@ -3,17 +3,14 @@ const MongoClient = mongodb.MongoClient;
 
 let _db;
 
-const mongoConnect = (callback) => {
-  MongoClient.connect(
-    "mongodb+srv://root:root@cluster0.zdque.mongodb.net/test?retryWrites=true&w=majority",
-    { useUnifiedTopology: true }
-  )
-    .then((client) => {
+const mongoConnect = callback => {
+  MongoClient.connect("", { useUnifiedTopology: true })
+    .then(client => {
       console.log("Connected!");
       _db = client.db();
       callback();
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       throw err;
     });
