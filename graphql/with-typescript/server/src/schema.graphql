@@ -1,0 +1,29 @@
+type Query {
+  todos: [Todo!]!
+}
+
+type Mutation {
+  register(email: String!, password: String!, name: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload
+}
+
+type User {
+  _id: ID!
+  email: String!
+  name: String!
+  todos: [Todo!]!
+}
+
+type Todo {
+  _id: ID!
+  title: String!
+  done: Boolean!
+  createdAt: String!
+  updatedAt: String!
+  creator: User!
+}
+
+type AuthPayload {
+  token: String!
+  expiresIn: String!
+}
