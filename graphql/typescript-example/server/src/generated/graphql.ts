@@ -20,6 +20,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   todos: Array<Todo>;
+  user?: Maybe<User>;
 };
 
 export type Mutation = {
@@ -225,6 +226,7 @@ export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Arg
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{

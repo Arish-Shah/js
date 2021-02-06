@@ -1,0 +1,9 @@
+query Todos {
+  todos {
+    _id
+    title
+    done
+    createdAt
+    updatedAt
+  }
+}
