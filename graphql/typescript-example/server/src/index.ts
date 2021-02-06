@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 import User from "./models/User";
+import Todo from "./models/Todo";
+import { getUser } from "./utils/auth";
 
 dotenv.config();
 
@@ -19,8 +21,11 @@ async function main() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req, res }) => {
-      return { req, res, User };
+    context: async ({ req, res }) => {
+      const token = req.headers?.authorization || "";
+      const user = await getUser(token);
+
+      return { req, res, User, Todo, user };
     }
   });
 
