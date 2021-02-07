@@ -1,5 +1,0 @@
-mutation DeleteTodo($_id: ID!) {
-  deleteTodo(_id: $_id) {
-    _id
-  }
-}
