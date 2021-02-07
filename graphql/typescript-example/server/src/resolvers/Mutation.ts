@@ -1,5 +1,12 @@
-import { ApolloError, AuthenticationError } from "apollo-server-express";
+import {
+  ApolloError,
+  AuthenticationError,
+  ValidationError
+} from "apollo-server-express";
 import bcrypt from "bcryptjs";
+
+import isEmail from "validator/lib/isEmail";
+import isAlphanumeric from "validator/lib/isAlphanumeric";
 
 import { Context } from "../Context";
 import {
@@ -28,7 +35,9 @@ export const Mutation: MutationResolvers = {
         throw new ApolloError("User already exists");
       }
 
-      // perform validations
+      if (!isEmail(email)) throw new ValidationError("Invalid email");
+      if (!isAlphanumeric(password))
+        throw new ValidationError("Invalid password");
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = new User({ email, password: hashedPassword, name });
@@ -99,9 +108,8 @@ export const Mutation: MutationResolvers = {
       const todo = await Todo.findById(_id);
       if (!todo) throw new ApolloError("Todo not found");
 
-      if (args.todo?.done) {
-        todo.done = args.todo.done;
-      }
+      todo.done = args.todo?.done!;
+
       if (args.todo?.title) {
         todo.title = args.todo.title;
       }

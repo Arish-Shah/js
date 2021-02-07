@@ -18,15 +18,19 @@ function AuthPage({ setToken }: Props) {
     password: ""
   });
 
-  const [registerMutation] = useRegisterMutation();
-  const [loginMutation] = useLoginMutation();
+  const [registerMutation, { error: registerError }] = useRegisterMutation();
+  const [loginMutation, { error: loginError }] = useLoginMutation();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (page === Page.LOGIN) {
-      login(values.email, values.password);
+      if (values.email.trim() && values.password.trim()) {
+        login(values.email.trim(), values.password.trim());
+      }
     } else {
-      register(values.email, values.password, values.name);
+      if (values.email.trim() && values.password.trim() && values.name.trim()) {
+        register(values.email.trim(), values.password, values.name.trim());
+      }
     }
   };
 
@@ -51,13 +55,20 @@ function AuthPage({ setToken }: Props) {
       .catch(error => console.log(error));
   };
 
+  let message = registerError
+    ? registerError.message
+    : loginError
+    ? loginError.message
+    : "";
+
   return (
     <Fragment>
-      <h1>Auth Page</h1>
-      <form onSubmit={handleSubmit}>
+      <h1>{page === Page.LOGIN ? "Log in" : "Sign up"}</h1>
+      {message && <div className="alert">{message}</div>}
+      <form onSubmit={handleSubmit} className="form">
         {/* Name */}
         {page === Page.REGISTER && (
-          <div>
+          <div className="form-control">
             <label htmlFor="name">Name</label>
             <input
               type="text"
@@ -70,7 +81,7 @@ function AuthPage({ setToken }: Props) {
           </div>
         )}
         {/* Email */}
-        <div>
+        <div className="form-control">
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -82,7 +93,7 @@ function AuthPage({ setToken }: Props) {
           />
         </div>
         {/* Password */}
-        <div>
+        <div className="form-control">
           <label htmlFor="email">Password</label>
           <input
             type="password"
@@ -93,7 +104,7 @@ function AuthPage({ setToken }: Props) {
             }
           />
         </div>
-        <div>
+        <div className="form-control">
           <button type="submit">
             {page === Page.LOGIN ? "Log in" : "Sign up"}
           </button>

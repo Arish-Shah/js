@@ -10,10 +10,16 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 import App from "./App";
+import "./index.css";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("token");
-  return { ...headers, Authorization: token ? `Bearer ${token}` : "" };
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ""
+    }
+  };
 });
 
 const httpLink = createHttpLink({
@@ -26,12 +32,12 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <ApolloProvider client={client}>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </BrowserRouter>
-  </ApolloProvider>,
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById("root")
 );

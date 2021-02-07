@@ -10,7 +10,10 @@ function App() {
 
   const routes = token ? (
     <Fragment>
-      <Route path="/todos" component={() => <TodosPage />} />
+      <Route
+        path="/todos"
+        component={() => <TodosPage setToken={setToken} />}
+      />
       <Redirect to="/todos" />
     </Fragment>
   ) : (

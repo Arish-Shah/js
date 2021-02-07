@@ -17,7 +17,6 @@ export const createToken = (user: IUser): AuthPayload => {
     },
     secret
   );
-
   return {
     token,
     expiresIn: null
