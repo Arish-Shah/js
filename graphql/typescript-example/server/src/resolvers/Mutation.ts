@@ -91,8 +91,9 @@ export const Mutation: MutationResolvers = {
     { Todo }: Context
   ): Promise<Todo> => {
     try {
-      const todo = await Todo.findOneAndDelete({ _id: args._id });
+      const todo = await Todo.findOne({ _id: args._id });
       if (!todo) throw new ApolloError("Todo not found");
+      await todo.remove();
       return todo as Todo;
     } catch (error) {
       throw error;

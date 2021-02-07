@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import {
   useUserQuery,
   useAddTodoMutation,
-  UserDocument,
   useUpdateTodoMutation,
-  Todo
+  useDeleteTodoMutation
 } from "../generated/graphql";
 
 interface Props {
@@ -13,12 +12,12 @@ interface Props {
 }
 
 function TodosPage({ setToken }: Props) {
-  const { data } = useUserQuery({
-    fetchPolicy: "network-only"
-  });
+  const { data } = useUserQuery();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
   const [addTodo] = useAddTodoMutation();
   const [updateTodo] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -30,29 +29,25 @@ function TodosPage({ setToken }: Props) {
       addTodo({
         variables: {
           title: inputRef.current.value
-        },
-        update(cache, { data }) {
-          const { user } = cache.readQuery({ query: UserDocument }) as any;
-          const todos = user.todos;
-          const updatedTodos = [...todos, data?.addTodo];
-          cache.writeQuery({
-            query: UserDocument,
-            data: {
-              user: {
-                ...user,
-                todos: updatedTodos
-              }
-            }
-          });
         }
       });
     }
   };
 
-  const handleTodoChange = async (_id: string, done: boolean) => {
+  const handleTodoChange = (_id: string, done: boolean) => {
     updateTodo({
       variables: { _id, done }
     });
+  };
+
+  const handleDelete = (_id: string) => {
+    if (window.confirm("Are you sure you want to delete this todo?")) {
+      deleteTodo({
+        variables: {
+          _id
+        }
+      });
+    }
   };
 
   const handleLogout = () => {
@@ -72,7 +67,7 @@ function TodosPage({ setToken }: Props) {
           <input type="text" placeholder="Enter task" ref={inputRef} />
           <button>Add</button>
         </form>
-        <ul>
+        <ul className="todos">
           {data.user?.todos?.map(todo => (
             <li key={todo._id}>
               <label>
@@ -81,8 +76,9 @@ function TodosPage({ setToken }: Props) {
                   checked={todo.done}
                   onChange={e => handleTodoChange(todo._id, e.target.checked)}
                 />
-                {todo.done ? <del>{todo.title}</del> : todo.title}
+                <span>{todo.done ? <del>{todo.title}</del> : todo.title}</span>
               </label>
+              <span onClick={() => handleDelete(todo._id)}>&times;</span>
             </li>
           ))}
         </ul>

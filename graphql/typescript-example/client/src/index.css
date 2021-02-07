@@ -41,3 +41,18 @@ input {
   align-items: center;
   justify-content: space-between;
 }
+
+.todos {
+  list-style-type: none;
+  padding: 0;
+}
+
+.todos li {
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.todos li span {
+  cursor: pointer;
+}
